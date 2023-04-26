@@ -26,14 +26,11 @@ mkdir $main_file_name
 cd $main_file_name
 
 npm init -y
+npm install create-react-app
+npx create-react-app client
 
-npm install -g create-react-app
+mkdir server
 
-mkdir client server
-cd client
-npm init -y
-npx create-react-app $main_file_name"reactApp"
-cd ..
 cd server
 npm init -y
 npm install express cors mongoose
