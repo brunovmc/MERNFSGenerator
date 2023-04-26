@@ -1,9 +1,15 @@
 #!/bin/bash
 
-if [ $# -eq 0 ]
-  then
-    echo "Please provide a main file name"
-    exit 1
+if [ -z "$1" ]
+then
+    read -p "Please provide a main file name: " main_file_name
+    if [ -z "$main_file_name" ]
+    then
+        echo "Error: Must provide a directory name"
+        exit 1
+    fi
+else
+    main_file_name=$1
 fi
 
 if [ $# -gt 1 ]
@@ -16,12 +22,17 @@ if [ $# -gt 1 ]
     fi
 fi
 
-mkdir $1
-cd $1
+mkdir $main_file_name
+cd $main_file_name
+
+npm init -y
+
+npm install -g create-react-app
 
 mkdir client server
 cd client
-npx create-react-app .
+npm init -y
+npx create-react-app $main_file_name"reactApp"
 cd ..
 cd server
 npm init -y
@@ -39,7 +50,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect('mongodb://localhost:27017/$1', { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/$main_file_name', { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
 const connection = mongoose.connection;
 connection.once('open', () => {
   console.log('MongoDB database connection established successfully');
@@ -48,12 +59,5 @@ connection.once('open', () => {
 app.listen(port, () => {
   console.log('Server is running on port: ' + port);
 });" >> index.js
-
-cd ../client
-
-echo "Adding a React app using create-react-app..."
-npx create-react-app .
-
-cd ../..
 
 echo "Basic MERN stack file structure created successfully!"
