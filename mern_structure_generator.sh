@@ -6,6 +6,16 @@ if [ $# -eq 0 ]
     exit 1
 fi
 
+if [ $# -gt 1 ]
+  then
+    if ! [ -d "$2" ]
+      then
+        echo "Invalid path, creating in current directory"
+      else
+        cd $2
+    fi
+fi
+
 mkdir $1
 cd $1
 
@@ -39,6 +49,11 @@ app.listen(port, () => {
   console.log('Server is running on port: ' + port);
 });" >> index.js
 
-cd ..
+cd ../client
+
+echo "Adding a React app using create-react-app..."
+npx create-react-app .
+
+cd ../..
 
 echo "Basic MERN stack file structure created successfully!"
