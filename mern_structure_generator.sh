@@ -57,4 +57,7 @@ app.listen(port, () => {
   console.log('Server is running on port: ' + port);
 });" >> index.js
 
+cd ..
+sed -i '/exit 1\"/s/$/,\n    "start": "start cmd.exe \/c \\"cd client \&\& start cmd.exe \/k npm start\\" \& start cmd.exe \/c \\"cd server \&\& start cmd.exe \/k node index.js\\"" /' package.json
+
 echo "Basic MERN stack file structure created successfully!"
