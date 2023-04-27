@@ -1,4 +1,4 @@
-# MERN Stack File Structure Creator
+# MERN Stack File Structure Generator
 
 This script generates a basic MERN stack file structure, including a React app generated using `create-react-app` in the `client` directory and an Express server in the `server` directory with Mongoose for MongoDB integration.
 
