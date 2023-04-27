@@ -34,8 +34,9 @@ mkdir server
 cd server
 npm init -y
 npm install express cors mongoose dotenv
+mkdir models public routes services
 
-touch index.js
+touch index.js .env .env.example
 
 echo "const express = require('express');
 const cors = require('cors');
