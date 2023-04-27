@@ -33,7 +33,7 @@ mkdir server
 
 cd server
 npm init -y
-npm install express cors mongoose
+npm install express cors mongoose dotenv
 
 touch index.js
 
