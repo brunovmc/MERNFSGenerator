@@ -62,13 +62,33 @@ cd models
 
 echo "const mongoose = require("mongoose");
 
+const ExampleSchema = require("./example");
+
+
 const connect = () => {
   mongoose.connect(process.env.MONGO_URL);
 };
 
 module.exports = {
+  Example,
   connect,
 };" >> index.js
+
+echo " const { Schema } = require("mongoose");
+const Pokemon = new Schema({
+  id: {
+    type: Number,
+    required: true,
+  },
+    nome: {
+    type: String,
+    required: true,
+  },
+});
+
+module.exports = Exemplo;
+
+" >> example.js
 
 cd ../..
 sed -i '/exit 1\"/s/$/,\n    "start": "start cmd.exe \/c \\"cd client \&\& start cmd.exe \/k npm start\\" \& start cmd.exe \/c \\"cd server \&\& start cmd.exe \/k node index.js\\"" /' package.json
