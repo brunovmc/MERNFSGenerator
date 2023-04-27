@@ -20,6 +20,16 @@ sh create_mern_structure.sh myapp                      # Creates the directory '
 sh create_mern_structure.sh myapp /path/to/directory   # Creates the directory 'myapp' in the '/path/to/directory' directory
 ```
 
+## Running the Client and Server
+
+After running the script and entering the created directory, you can run the following command in the main directory to start the client and server:
+
+```
+npm start
+```
+
+This will create two terminals, one for the client and one for the server.
+
 ## Credits
 
 This script was created by Bruno Vidigal.
