@@ -73,21 +73,19 @@ module.exports = {
   connect,
 };" >> index.js
 
-echo " const { Schema } = require('mongoose');
-const Pokemon = new Schema({
+echo "const { Schema } = require(mongoose);
+const Example = new Schema({
   id: {
     type: Number,
     required: true,
   },
-    nome: {
+  nome: {
     type: String,
     required: true,
   },
 });
 
-module.exports = Exemplo;
-
-" >> example.js
+module.exports = Example;" >> example.js
 
 cd ../..
 sed -i '/exit 1\"/s/$/,\n    "start": "start cmd.exe \/c \\"cd client \&\& start cmd.exe \/k npm start\\" \& start cmd.exe \/c \\"cd server \&\& start cmd.exe \/k node index.js\\"" /' package.json
