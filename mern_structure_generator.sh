@@ -62,7 +62,7 @@ cd models
 
 echo "const mongoose = require('mongoose');
 
-const ExampleSchema = require('./example\');
+const ExampleSchema = require('\./\example');
 
 const connect = () => {
   mongoose.connect(process.env.MONGO_URL);
@@ -73,7 +73,7 @@ module.exports = {
   connect,
 };" >> index.js
 
-echo "const { Schema } = require(mongoose);
+echo "const { Schema } = require('mongoose');
 const Example = new Schema({
   id: {
     type: Number,
