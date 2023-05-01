@@ -7,7 +7,7 @@ This script generates a basic MERN stack file structure, including a React app g
 To use this script, run the following command in your terminal:
 
 ```bash
-sh create_mern_structure.sh <main_file_name> [<directory_path>]
+sh mern_structure_generator.sh <main_file_name> [<directory_path>]
 ```
 
 - `<main_file_name>`: Required argument. The name of your main file. This will be used as the name of your project directory and also as the name of the MongoDB database.
@@ -16,8 +16,8 @@ sh create_mern_structure.sh <main_file_name> [<directory_path>]
 Examples:
 
 ```bash
-sh create_mern_structure.sh myapp                      # Creates the directory 'myapp' in the current directory
-sh create_mern_structure.sh myapp /path/to/directory   # Creates the directory 'myapp' in the '/path/to/directory' directory
+sh mern_structure_generator.sh myapp                      # Creates the directory 'myapp' in the current directory
+sh mern_structure_generator.sh myapp /path/to/directory   # Creates the directory 'myapp' in the '/path/to/directory' directory
 ```
 
 ## Running the Client and Server

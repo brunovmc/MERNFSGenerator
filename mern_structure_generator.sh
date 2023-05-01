@@ -5,6 +5,7 @@ create_server_directory() {
     cd server
     npm init -y
     npm install express cors mongoose dotenv
+    npm install --save-dev nodemon
     mkdir models public routes services
 }
 
@@ -104,3 +105,4 @@ cd ../..
 sed -i '/exit 1\"/s/$/,\n    "start": "start cmd.exe \/c \\"cd client \&\& start cmd.exe \/k npm start\\" \& start cmd.exe \/c \\"cd server \&\& start cmd.exe \/k node index.js\\"" /' package.json
 
 echo "Basic MERN stack file structure created successfully!"
+echo "Script executed in $(($SECONDS / 3600))h$((($SECONDS / 60) % 60))m$(($SECONDS % 60))s"
