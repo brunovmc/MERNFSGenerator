@@ -1,5 +1,39 @@
 #!/bin/bash
 
+create_server_directory() {
+    mkdir server
+    cd server
+    npm init -y
+    npm install express cors mongoose dotenv
+    mkdir models public routes services
+}
+
+create_index_file() {
+    cd server
+    cat <<EOF > index.js
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose');
+
+const app = express();
+const port = process.env.PORT || 5000;
+
+app.use(cors());
+app.use(express.json());
+
+mongoose.connect('mongodb://localhost:27017/$main_file_name', { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
+const connection = mongoose.connection;
+connection.once('open', () => {
+  console.log('MongoDB database connection established successfully');
+});
+
+app.listen(port, () => {
+  console.log('Server is running on port: ' + port);
+});
+EOF
+    cd ..
+}
+
 if [ -z "$1" ]
 then
     read -p "Please provide a main file name: " main_file_name
@@ -30,40 +64,13 @@ npm init -y
 npm install create-react-app
 npx create-react-app client
 
-mkdir server
+create_server_directory
+create_index_file
 
-cd server
-npm init -y
-npm install express cors mongoose dotenv
-mkdir models public routes services
-
-touch index.js
-
-echo "const express = require('express');
-const cors = require('cors');
+cd server/models
+cat <<EOF > index.js
 const mongoose = require('mongoose');
-
-const app = express();
-const port = process.env.PORT || 5000;
-
-app.use(cors());
-app.use(express.json());
-
-mongoose.connect('mongodb://localhost:27017/$main_file_name', { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
-const connection = mongoose.connection;
-connection.once('open', () => {
-  console.log('MongoDB database connection established successfully');
-});
-
-app.listen(port, () => {
-  console.log('Server is running on port: ' + port);
-});" >> index.js
-
-cd models
-
-echo "const mongoose = require('mongoose');
-
-const ExampleSchema = require('\./\example');
+const ExampleSchema = require('./example');
 
 const connect = () => {
   mongoose.connect(process.env.MONGO_URL);
@@ -72,9 +79,12 @@ const connect = () => {
 module.exports = {
   Example,
   connect,
-};" >> index.js
+};
+EOF
 
-echo "const { Schema } = require('mongoose');
+cat <<EOF > example.js
+const { Schema } = require('mongoose');
+
 const Example = new Schema({
   id: {
     type: Number,
@@ -86,9 +96,11 @@ const Example = new Schema({
   },
 });
 
-module.exports = Example;" >> example.js
+module.exports = Example;
+EOF
 
 cd ../..
+
 sed -i '/exit 1\"/s/$/,\n    "start": "start cmd.exe \/c \\"cd client \&\& start cmd.exe \/k npm start\\" \& start cmd.exe \/c \\"cd server \&\& start cmd.exe \/k node index.js\\"" /' package.json
 
 echo "Basic MERN stack file structure created successfully!"
