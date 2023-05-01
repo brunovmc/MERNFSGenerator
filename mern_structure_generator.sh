@@ -25,6 +25,7 @@ fi
 mkdir $main_file_name
 cd $main_file_name
 
+touch .env .env.example
 npm init -y
 npm install create-react-app
 npx create-react-app client
@@ -36,7 +37,7 @@ npm init -y
 npm install express cors mongoose dotenv
 mkdir models public routes services
 
-touch index.js .env .env.example
+touch index.js
 
 echo "const express = require('express');
 const cors = require('cors');
