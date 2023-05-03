@@ -103,6 +103,7 @@ EOF
 cd ../..
 
 cd server/routes
+mkdir api auth midddlewares
 echo $'const express = require("express");\n\nconst router = express.Router();\n\nrouter.get("/", (_, res) => {\n  res.send("<h1>Home</h1>");\n});\n\nmodule.exports = router;' > home.js
 cd ../..
 
