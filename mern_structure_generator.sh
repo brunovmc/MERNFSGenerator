@@ -105,7 +105,11 @@ cd ../..
 cd server/routes
 mkdir api auth midddlewares
 echo $'const express = require("express");\n\nconst router = express.Router();\n\nrouter.get("/", (_, res) => {\n  res.send("<h1>Home</h1>");\n});\n\nmodule.exports = router;' > home.js
-cd ../..
+
+cd ..
+touch auth/index.js
+cd ..
+
 
 sed -i '/exit 1\"/s/$/,\n    "start": "start cmd.exe \/c \\"cd client \&\& start cmd.exe \/k npm start\\" \& start cmd.exe \/c \\"cd server \&\& start cmd.exe \/k node index.js\\"" /' package.json
 
