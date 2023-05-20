@@ -28,11 +28,45 @@ app.listen(port, () => {
     console.log('Server is running on port: ' + port);
 });
 EOF
+    cd models
+    cat <<EOF > index.js
+const mongoose = require('mongoose');
+const ExampleSchema = require('./example');
 
+const connect = () => {
+    mongoose.connect(process.env.MONGO_URL);
+};
+
+module.exports = {
+    Example,
+    connect,
+};
+EOF
+    cat <<EOF > example.js
+const { Schema } = require('mongoose');
+
+const Example = new Schema({
+    id: {
+        type: Number,
+        required: true,
+    },
+    nome: {
+        type: String,
+        required: true,
+    },
+});
+
+module.exports = Example;
+EOF
+
+    cd ..
+    cd routes
+    mkdir api auth midddlewares
+    echo $'const express = require("express");\n\nconst router = express.Router();\n\nrouter.get("/", (_, res) => {\n    res.send("<h1>Home</h1>");\n});\n\nmodule.exports = router;' > home.js
     cd ..
 }
 
-create_react_app() {
+create_client_directory() {
     npm install create-react-app
     npx create-react-app client
 }
@@ -73,53 +107,30 @@ cd $main_file_name
 touch .env .env.example
 npm init -y
 
-create_react_app
+echo "Creating client directory..."
+create_client_directory
+
+echo "Creating server directory..."
 create_server_directory
 
-cd server/models
-cat <<EOF > index.js
-const mongoose = require('mongoose');
-const ExampleSchema = require('./example');
-
-const connect = () => {
-    mongoose.connect(process.env.MONGO_URL);
-};
-
-module.exports = {
-    Example,
-    connect,
-};
-EOF
-
-cat <<EOF > example.js
-const { Schema } = require('mongoose');
-
-const Example = new Schema({
-    id: {
-        type: Number,
-        required: true,
-    },
-    nome: {
-        type: String,
-        required: true,
-    },
-});
-
-module.exports = Example;
-EOF
-
-cd ../..
-
-cd server/routes
-mkdir api auth midddlewares
-echo $'const express = require("express");\n\nconst router = express.Router();\n\nrouter.get("/", (_, res) => {\n    res.send("<h1>Home</h1>");\n});\n\nmodule.exports = router;' > home.js
-
-cd ..
-touch auth/index.js
-cd ..
-
+echo "Creating start command..."
 sed -i '/exit 1\"/s/$/,\n    "start": "start cmd.exe \/c \\"cd client \&\& start cmd.exe \/k npm start\\" \& start cmd.exe \/c \\"cd server \&\& start cmd.exe \/k node index.js\\"" /' package.json
+
+echo "Initializing Git repository..."
+git init
 
 echo "Creating README file..."
 create_readme
-echo "Basic MERN stack file structure
+
+echo "Committing initial files to Git..."
+git add .
+git commit -m "Initial commit"
+
+echo "Creating GitHub repository..."
+gh repo create $main_file_name --confirm
+
+echo "Pushing to remote repository..."
+git push origin main
+
+echo "Basic MERN stack file structure created successfully!"
+echo "Script executed in $(($SECONDS / 3600))h$((($SECONDS / 60) % 60))m$(($SECONDS % 60))s"
