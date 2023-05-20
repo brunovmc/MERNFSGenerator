@@ -28,6 +28,9 @@ app.listen(port, () => {
     console.log('Server is running on port: ' + port);
 });
 EOF
+    cat <<EOF > .gitignore
+/node_modules
+EOF
     cd models
     cat <<EOF > index.js
 const mongoose = require('mongoose');
@@ -63,7 +66,7 @@ EOF
     cd routes
     mkdir api auth midddlewares
     echo $'const express = require("express");\n\nconst router = express.Router();\n\nrouter.get("/", (_, res) => {\n    res.send("<h1>Home</h1>");\n});\n\nmodule.exports = router;' > home.js
-    cd ..
+    cd ../..
 }
 
 create_client_directory() {
@@ -79,8 +82,13 @@ create_readme() {
     echo "- Feature 1: Node.js/Express server." >> README.md
     echo "- Feature 2: MongoDB database." >> README.md
     echo "- Feature 3: React-create-app for Frontend." >> README.md
+    echo "- Feature 4: Command to start both client and server." >> README.md
     echo "" >> README.md
     echo "README file created successfully!"
+}
+
+git_init() {
+  git init
 }
 
 if [ -z "$1" ]; then
@@ -116,21 +124,11 @@ create_server_directory
 echo "Creating start command..."
 sed -i '/exit 1\"/s/$/,\n    "start": "start cmd.exe \/c \\"cd client \&\& start cmd.exe \/k npm start\\" \& start cmd.exe \/c \\"cd server \&\& start cmd.exe \/k node index.js\\"" /' package.json
 
-echo "Initializing Git repository..."
-git init
-
 echo "Creating README file..."
 create_readme
 
-echo "Committing initial files to Git..."
-git add .
-git commit -m "Initial commit"
-
-echo "Creating GitHub repository..."
-gh repo create $main_file_name --confirm
-
-echo "Pushing to remote repository..."
-git push origin main
+echo "Initializing git.."
+git_init
 
 echo "Basic MERN stack file structure created successfully!"
 echo "Script executed in $(($SECONDS / 3600))h$((($SECONDS / 60) % 60))m$(($SECONDS % 60))s"
